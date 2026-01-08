@@ -16,7 +16,7 @@ Sticky Boxes with sensible behaviour if the content is bigger than the viewport.
 ### Use as a Component
 
 ```jsx
-import StickyBox from "react-sticky-box";
+import StickyBox from "@cloakui/sticky";
 
 const Page = () => (
   <div className="row">
@@ -31,7 +31,7 @@ const Page = () => (
 ### Or via the `useStickyBox` hook
 
 ```jsx
-import {useStickyBox} from "react-sticky-box";
+import {useStickyBox} from "@cloakui/sticky";
 
 const Page = () => {
   const stickyRef = useStickyBox({offsetTop: 20, offsetBottom: 20})
@@ -43,6 +43,7 @@ const Page = () => {
   </div>
 };
 ```
+
 ---
 
 [Changelog](https://react-sticky-box.codecks.io/changelog)
