@@ -20,10 +20,11 @@
     "build": "npm run build-ts",
     "build-ts": "tsc -p tsconfig.json",
     "lint": "eslint --max-warnings=0 'src/**/*.{js,jsx,ts,tsx}'",
-    "clean": "rm -rf .turbo && rm -rf dist && npm run clean:modules",
+    "clean": "rm -rf .turbo && rm -rf dist",
     "clean:modules": "rm -rf node_modules",
     "is-prettier": "prettier --list-different 'src/**/*.{js,jsx,ts,tsx}'",
-    "prepublishOnly": "npm run lint && npm run is-prettier && npm run build && cp ../../README.md ."
+    "prepublishOnly": "npm run lint && npm run is-prettier && npm run build && cp ../../README.md .",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
   },
   "keywords": [
     "react",
