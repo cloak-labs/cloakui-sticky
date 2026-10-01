@@ -1,4 +1,4 @@
-import {build} from "esbuild";
+import { build } from "esbuild";
 
 // based on https://github.com/evanw/esbuild/issues/619#issuecomment-751995294
 const makeAllPackagesExternalPlugin = {
@@ -6,7 +6,7 @@ const makeAllPackagesExternalPlugin = {
   setup(build) {
     const filter = /^[^./]|^\.[^./]|^\.\.[^/]/; // Must not start with "/" or "./" or "../"
 
-    build.onResolve({filter}, (args) => ({
+    build.onResolve({ filter }, (args) => ({
       path: args.path,
       external: true,
     }));

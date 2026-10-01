@@ -31,7 +31,7 @@ const getScrollParent = (node: HTMLElement): HTMLElement | Window => {
   let parent: HTMLElement | null = node;
   while ((parent = parent.parentElement)) {
     const overflowYVal = getComputedStyle(parent, null).getPropertyValue(
-      "overflow-y"
+      "overflow-y",
     );
     if (parent === document.body) return window;
     if (
@@ -74,16 +74,16 @@ const getParentNode = (node: HTMLElement): HTMLElement | Window => {
 };
 
 const getVerticalPadding = (
-  node: HTMLElement
+  node: HTMLElement,
 ): { top: number; bottom: number } => {
   const computedParentStyle = getComputedStyle(node, null);
   const parentPaddingTop = parseInt(
     computedParentStyle.getPropertyValue("padding-top"),
-    10
+    10,
   );
   const parentPaddingBottom = parseInt(
     computedParentStyle.getPropertyValue("padding-bottom"),
-    10
+    10,
   );
   return { top: parentPaddingTop, bottom: parentPaddingBottom };
 };
@@ -142,7 +142,7 @@ class PositionCalculator {
     dimensions: ElementDimensions,
     scrollDirection: ScrollDirection,
     currentState: StickyState,
-    wasSticky: boolean
+    wasSticky: boolean,
   ): boolean {
     if (!config.waitUntil) return false;
 
@@ -183,7 +183,7 @@ class PositionCalculator {
     scrollPosition: number,
     dimensions: ElementDimensions,
     config: StickyConfig,
-    relativeOffset: number
+    relativeOffset: number,
   ): boolean {
     const { scrollPaneOffset, viewPortHeight, naturalTop, nodeHeight } =
       dimensions;
@@ -197,7 +197,7 @@ class PositionCalculator {
 
   public shouldBeSmall(
     dimensions: ElementDimensions,
-    config: StickyConfig
+    config: StickyConfig,
   ): boolean {
     const { viewPortHeight } = dimensions;
     const { offsetTop, offsetBottom } = config;
@@ -233,7 +233,7 @@ class StateManager {
     config: StickyConfig,
     scrollPosition: number,
     dimensions: ElementDimensions,
-    scrollDirection: ScrollDirection
+    scrollDirection: ScrollDirection,
   ): StickyState {
     // Check if we should wait for sticky behavior
     const shouldWait = this.positionCalculator.shouldWaitForSticky(
@@ -242,7 +242,7 @@ class StateManager {
       dimensions,
       scrollDirection,
       this.currentState,
-      this.wasSticky
+      this.wasSticky,
     );
 
     // Apply hysteresis to prevent flickering, but only when transitioning between sticky and non-sticky
@@ -256,7 +256,7 @@ class StateManager {
         dimensions,
         scrollDirection,
         this.currentState,
-        this.wasSticky
+        this.wasSticky,
       );
 
       if (!shouldWaitWithBuffer) {
@@ -272,7 +272,7 @@ class StateManager {
         dimensions,
         scrollDirection,
         this.currentState,
-        this.wasSticky
+        this.wasSticky,
       );
 
       if (shouldWaitWithBuffer) {
@@ -300,7 +300,7 @@ class StateManager {
         scrollPosition,
         dimensions,
         config,
-        this.relativeOffset
+        this.relativeOffset,
       )
     ) {
       this.wasSticky = true;
@@ -315,7 +315,7 @@ class StateManager {
     prevState: StickyState,
     scrollPosition: number,
     dimensions: ElementDimensions,
-    config: StickyConfig
+    config: StickyConfig,
   ): void {
     if (prevState === "relative") {
       this.relativeOffset = -1;
@@ -330,14 +330,14 @@ class StateManager {
         prevState === "sticky-top"
           ? Math.max(
               0,
-              scrollPaneOffset + scrollPosition - naturalTop + offsetTop
+              scrollPaneOffset + scrollPosition - naturalTop + offsetTop,
             )
           : Math.max(
               0,
               scrollPaneOffset +
                 scrollPosition +
                 viewPortHeight -
-                (naturalTop + nodeHeight + offsetBottom)
+                (naturalTop + nodeHeight + offsetBottom),
             );
     }
   }
@@ -366,7 +366,7 @@ class DOMController {
     config: StickyConfig,
     dimensions: ElementDimensions,
     relativeOffset: number,
-    scrollPosition: number
+    scrollPosition: number,
   ): void {
     // Add transition when state changes
     if (prevState !== newState) {
@@ -386,7 +386,7 @@ class DOMController {
         config,
         dimensions,
         relativeOffset,
-        scrollPosition
+        scrollPosition,
       );
     });
   }
@@ -397,7 +397,7 @@ class DOMController {
     config: StickyConfig,
     dimensions: ElementDimensions,
     relativeOffset: number,
-    scrollPosition: number
+    scrollPosition: number,
   ): void {
     const { nodeHeight, viewPortHeight } = dimensions;
     const { offsetTop, offsetBottom, bottom } = config;
@@ -477,12 +477,12 @@ class ScrollTracker {
   private lastScrollPosition: number;
   private onScroll: (
     scrollPosition: number,
-    direction: ScrollDirection
+    direction: ScrollDirection,
   ) => void;
 
   constructor(
     scrollPane: HTMLElement | Window,
-    onScroll: (scrollPosition: number, direction: ScrollDirection) => void
+    onScroll: (scrollPosition: number, direction: ScrollDirection) => void,
   ) {
     this.scrollPane = scrollPane;
     this.onScroll = onScroll;
@@ -511,7 +511,7 @@ class ScrollTracker {
     this.scrollPane.addEventListener(
       "mousewheel",
       this.handleScroll,
-      passiveArg
+      passiveArg,
     );
   }
 
@@ -534,7 +534,7 @@ class DimensionTracker {
   constructor(
     element: HTMLElement,
     scrollPane: HTMLElement | Window,
-    onDimensionsChange: (dimensions: ElementDimensions) => void
+    onDimensionsChange: (dimensions: ElementDimensions) => void,
   ) {
     this.element = element;
     this.scrollPane = scrollPane;
@@ -661,12 +661,12 @@ class StickyElement {
     const scrollPane = getScrollParent(element);
     this.scrollTracker = new ScrollTracker(
       scrollPane,
-      this.handleScroll.bind(this)
+      this.handleScroll.bind(this),
     );
     this.dimensionTracker = new DimensionTracker(
       element,
       scrollPane,
-      this.handleDimensionsChange.bind(this)
+      this.handleDimensionsChange.bind(this),
     );
   }
 
@@ -683,7 +683,7 @@ class StickyElement {
 
   private handleScroll(
     scrollPosition: number,
-    direction: ScrollDirection
+    direction: ScrollDirection,
   ): void {
     if (this.isDestroyed || !this.currentDimensions) return;
 
@@ -692,7 +692,7 @@ class StickyElement {
       this.config,
       scrollPosition,
       this.currentDimensions,
-      direction
+      direction,
     );
 
     if (nextState !== prevState) {
@@ -703,7 +703,7 @@ class StickyElement {
         prevState,
         scrollPosition,
         this.currentDimensions,
-        this.config
+        this.config,
       );
 
       this.domController.applyState(
@@ -712,7 +712,7 @@ class StickyElement {
         this.config,
         this.currentDimensions,
         this.stateManager.getRelativeOffset(),
-        scrollPosition
+        scrollPosition,
       );
     }
   }
@@ -728,7 +728,7 @@ class StickyElement {
 
 export const createStickyElement = (
   element: HTMLElement,
-  config: StickyConfig
+  config: StickyConfig,
 ): { destroy: () => void } => {
   const stickyElement = new StickyElement(element, config);
   stickyElement.start();

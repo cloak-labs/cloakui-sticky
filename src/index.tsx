@@ -13,7 +13,7 @@ const getScrollParent = (node: HTMLElement) => {
   // Walk up the DOM tree looking for a scrollable parent
   while ((parent = parent.parentElement)) {
     const overflowYVal = getComputedStyle(parent, null).getPropertyValue(
-      "overflow-y"
+      "overflow-y",
     );
 
     // If we reach the body, return window as the scroll parent
@@ -183,7 +183,7 @@ const getDimensions = <T extends object>(opts: {
       // note the e[0].contentRect is different from `getBoundingClientRect`
       Object.assign(
         mResult,
-        measure((el as HTMLElement).getBoundingClientRect())
+        measure((el as HTMLElement).getBoundingClientRect()),
       );
       onChange();
     };
@@ -198,11 +198,11 @@ const getVerticalPadding = (node: HTMLElement) => {
   const computedParentStyle = getComputedStyle(node, null);
   const parentPaddingTop = parseInt(
     computedParentStyle.getPropertyValue("padding-top"),
-    10
+    10,
   );
   const parentPaddingBottom = parseInt(
     computedParentStyle.getPropertyValue("padding-bottom"),
-    10
+    10,
   );
   return { top: parentPaddingTop, bottom: parentPaddingBottom };
 };
@@ -231,7 +231,7 @@ type StickyMode = null | (typeof MODES)[keyof typeof MODES];
  * @returns Object with parsed value and whether it's a percentage
  */
 const parseWaitUntil = (
-  waitUntil: string
+  waitUntil: string,
 ): { value: number; isPercentage: boolean } => {
   const trimmed = waitUntil.trim();
 
@@ -277,7 +277,7 @@ const shouldWaitForSticky = (
   offsetTop: number,
   offsetBottom: number,
   bottom: boolean,
-  isScrollingDown: boolean
+  isScrollingDown: boolean,
 ): boolean => {
   // If no waitUntil specified, don't wait
   if (!waitUntil) return false;
@@ -394,7 +394,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
             scrollPaneOffset +
               latestScrollY +
               viewPortHeight -
-              (naturalTop + nodeHeight + offsetBottom)
+              (naturalTop + nodeHeight + offsetBottom),
           );
 
           const shouldWait = shouldWaitForSticky(
@@ -406,7 +406,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
             offsetTop,
             offsetBottom,
             bottom,
-            true // Assume scrolling down for scheduleOnLayout
+            true, // Assume scrolling down for scheduleOnLayout
           );
 
           if (shouldWait) return;
@@ -483,7 +483,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
       offsetTop,
       offsetBottom,
       bottom,
-      true // Assume scrolling down for initial layout
+      true, // Assume scrolling down for initial layout
     );
 
     // Apply hysteresis to prevent flickering at transition boundaries
@@ -495,7 +495,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
         Math.max(
           0,
           latestScrollY +
-            (currentStickyState ? -HYSTERESIS_BUFFER : HYSTERESIS_BUFFER)
+            (currentStickyState ? -HYSTERESIS_BUFFER : HYSTERESIS_BUFFER),
         ),
         naturalTop,
         nodeHeight,
@@ -503,7 +503,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
         offsetTop,
         offsetBottom,
         bottom,
-        true // Assume scrolling down for hysteresis check
+        true, // Assume scrolling down for hysteresis check
       );
 
       // If the buffered check gives a different result, maintain current state
@@ -661,14 +661,14 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
           prevMode === MODES.stickyTop
             ? Math.max(
                 0,
-                scrollPaneOffset + latestScrollY - naturalTop + offsetTop
+                scrollPaneOffset + latestScrollY - naturalTop + offsetTop,
               )
             : Math.max(
                 0,
                 scrollPaneOffset +
                   latestScrollY +
                   viewPortHeight -
-                  (naturalTop + nodeHeight + offsetBottom)
+                  (naturalTop + nodeHeight + offsetBottom),
               );
 
         // Apply positioning based on bottom vs top sticky
@@ -751,7 +751,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
       offsetTop,
       offsetBottom,
       bottom,
-      isScrollingDown
+      isScrollingDown,
     );
 
     // Apply hysteresis to prevent flickering at transition boundaries
@@ -767,7 +767,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
         offsetTop,
         offsetBottom,
         bottom,
-        isScrollingDown
+        isScrollingDown,
       );
 
       // If the buffered check gives a different result, maintain current state
@@ -793,7 +793,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
         if (scrollY + scrollPaneOffset + offsetTop > naturalTop) {
           const topOffset = Math.max(
             0,
-            scrollPaneOffset + latestScrollY - naturalTop + offsetTop
+            scrollPaneOffset + latestScrollY - naturalTop + offsetTop,
           );
 
           if (
@@ -820,7 +820,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
             scrollPaneOffset +
               latestScrollY +
               viewPortHeight -
-              (naturalTop + nodeHeight + offsetBottom)
+              (naturalTop + nodeHeight + offsetBottom),
           );
 
           if (
@@ -855,7 +855,7 @@ const setup = (node: HTMLElement, unsubs: UnsubList, opts: StickyBoxConfig) => {
   scrollPane.addEventListener("mousewheel", handleScroll, passiveArg);
   unsubs.push(
     () => scrollPane.removeEventListener("scroll", handleScroll),
-    () => scrollPane.removeEventListener("mousewheel", handleScroll)
+    () => scrollPane.removeEventListener("mousewheel", handleScroll),
   );
 };
 
