@@ -19,7 +19,7 @@
     "dev": "tsc -p tsconfig.json -w --preserveWatchOutput",
     "build": "npm run build-ts",
     "build-ts": "tsc -p tsconfig.json",
-    "lint": "eslint --max-warnings=0 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint": "oxlint --no-ignore --max-warnings=0 src",
     "clean": "rm -rf .turbo && rm -rf dist",
     "clean:modules": "rm -rf node_modules",
     "is-prettier": "prettier --list-different 'src/**/*.{js,jsx,ts,tsx}'",
@@ -41,7 +41,9 @@
   "devDependencies": {
     "@types/node": "^18.18.1",
     "tsc-watch": "^5.0.3",
-    "typescript": "^5.3.2"
+    "typescript": "^5.3.2",
+    "oxlint": "1.86.0",
+    "eslint-plugin-react": "7.37.5"
   },
   "publishConfig": {
     "access": "public"
