@@ -24,7 +24,9 @@
     "clean:modules": "rm -rf node_modules",
     "is-prettier": "prettier --list-different 'src/**/*.{js,jsx,ts,tsx}'",
     "prepublishOnly": "npm run lint && npm run is-prettier && npm run build && cp ../../README.md .",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check ."
   },
   "keywords": [
     "react",
@@ -39,11 +41,11 @@
     "react": ">= 18.2.x"
   },
   "devDependencies": {
-    "@types/node": "^18.18.1",
-    "tsc-watch": "^5.0.3",
-    "typescript": "^5.3.2",
+    "@types/node": "^18.19.130",
+    "typescript": "7.0.2",
     "oxlint": "1.86.0",
-    "eslint-plugin-react": "7.37.5"
+    "eslint-plugin-react": "7.37.5",
+    "oxfmt": "0.71.0"
   },
   "publishConfig": {
     "access": "public"
